@@ -7,10 +7,11 @@ import mockData from "./data";
 
 const e = r.createElement;
 
-rd.render(e(App, {}), document.getElementById("app"));
+rd.render(e(App), document.getElementById("app"));
 
+// wip
 function App() {
-  const [openedIndex, setOpenedIndex] = r.useState(null);
+  let [openedIndex, setOpenedIndex] = r.useState(null);
 
   // mockData 를 맵핑을 돌려 만든 details 요소에 대한 정보가 리스트형태로 담길 것이다.
   const detailRefs = r.useRef([]);
@@ -59,7 +60,7 @@ function App() {
       mockData.map(({ text, context }, index) =>
         e(r.forwardRef(Detail), {
           key: `detail${index}`,
-          ref: (el) => (detailRefs.current[index] = el),
+          ref: (r) => (detailRefs.current[index] = r),
           text,
           context,
           open: openedIndex === index,
@@ -83,7 +84,7 @@ function Detail({ text, open, onToggle }, ref) {
 function ContextPortal({ children, target }) {
   console.log(children, target);
 
-  if (!target) return null;
-
-  return rd.createPortal(children, target);
+  return target ? rd.createPortal(children, target) : null;
 }
+
+// 자바스크립트의 개입을 줄이는 것이 좋다.
