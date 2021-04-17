@@ -1,9 +1,9 @@
 import r from "react";
 import rd from "react-dom";
 
-import "./style.css";
-
 import mockData from "./data";
+
+import "./style.css";
 
 const e = r.createElement;
 
