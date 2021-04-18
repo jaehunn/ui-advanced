@@ -9,7 +9,7 @@ const e = r.createElement;
 
 rd.render(e(App), document.getElementById("app"));
 
-// wip
+// ISSUE) click 시 createPortal 로 target 에 children 이 박히지않는다.
 function App() {
   let [openedIndex, setOpenedIndex] = r.useState(null);
 
@@ -58,12 +58,12 @@ function App() {
 
       // useRef() 로 설정한 값은 current 로 접근할 수 있다.
       mockData.map(({ text, context }, index) =>
-        e(r.forwardRef(Detail), {
+        e(Detail(), {
           key: `detail${index}`,
           ref: (r) => (detailRefs.current[index] = r),
           text,
           context,
-          open: openedIndex === index,
+          open: index === openedIndex,
           onToggle: toggleHandler(index),
         })
       )
@@ -77,14 +77,16 @@ function App() {
 
 // Detail 마다 p 요소(context) 를 미리 배치시키지않고
 // forwardRef
-function Detail({ text, open, onToggle }, ref) {
-  return e("details", { open, ref }, e("summary", { onClick: onToggle }, text));
+function Detail() {
+  return r.forwardRef(({ text, open, onToggle }, ref) =>
+    e("details", { open, ref }, e("summary", { onClick: onToggle }, text))
+  );
 }
 
 function ContextPortal({ children, target }) {
-  console.log(children, target);
+  if (!target) return null;
 
-  return target ? rd.createPortal(children, target) : null;
+  return rd.createPortal(children, target);
 }
 
 // 자바스크립트의 개입을 줄이는 것이 좋다.
