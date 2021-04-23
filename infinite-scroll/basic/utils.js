@@ -1,32 +1,9 @@
-import { v4 as uuidv4 } from "uuid";
-import { LoremIpsum } from "lorem-ipsum";
+export const dummyFetcher = (cb, args) => new Promise(randomTimer(cb, args));
 
-const pageLimit = 20;
-const list = [];
-
-const lorem = new LoremIpsum({
-  wordsPerSentence: { min: 10, max: 30 },
-});
-
-const itemBuilder = (no) => ({
-  id: uuidv4(),
-  no,
-  text: lorem.generateWords(),
-});
-
-const listBuilder = (pageIndex) =>
-  Array.from({ length: pageLimit }).map((_, index) => itemBuilder(pageIndex * pageLimit + index + 1));
-
-export const getList = (pageIndex = 0) => {
-  if (!list[pageIndex]) list[pageIndex] = listBuilder(pageIndex);
-
-  return list[pageIndex];
+export const randomTimer = (cb, ...args) => (resolve) => {
+  setTimeout(() => resolve(cb(...args)), getRandomSeconds());
 };
 
+// Math.round() 0부터 5 까지 나오는 수에서 1 - 6 까지 범위를 설정한다.
+// 250 로 범위를 확장하면 250ms 부터 1250ms 까지 랜덤하게 ms 가 설정된다.
 const getRandomSeconds = () => (Math.round(Math.random() * 5) + 1) * 250;
-
-export const randomTimer = (func, ...args) => (resolve) => {
-  setTimeout(() => resolve(func(...args)), getRandomSeconds());
-};
-
-export const dummyFetcher = (method, args) => new Promise(randomTimer(method, args));
