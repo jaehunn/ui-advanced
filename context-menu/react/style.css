@@ -1,0 +1,55 @@
+.wrapper {
+  padding: 10px;
+  border: 2px solid #000;
+}
+
+details {
+  position: relative;
+  margin: 0;
+  border-top: 1px solid #000;
+}
+
+details:first-child {
+  border-top: 0;
+}
+
+summary {
+  padding: 10px;
+  outline: 0;
+  list-style: none;
+}
+
+details p {
+  display: none;
+  width: 60%;
+  padding: 10px;
+  margin: 0;
+  border: 1px solid #000;
+  position: absolute;
+  top: calc(100% - 10px);
+  right: 10px;
+  background-color: #fff;
+  z-index: 1;
+}
+
+summary::after {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 2px;
+  border: 1px solid #000;
+  font-size: 9px;
+  background-color: #fff;
+}
+
+summary:hover::after {
+  content: "open";
+}
+
+details[open] summary::after {
+  content: "close";
+}
+
+details[open] p {
+  display: block;
+}

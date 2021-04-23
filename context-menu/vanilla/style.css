@@ -1,0 +1,52 @@
+.wrapper {
+  padding: 10px;
+  border: 2px solid #000;
+}
+
+.item {
+  position: relative;
+  padding: 10px;
+  margin: 0;
+  border-top: 1px solid #000;
+}
+
+.item:first-child {
+  border-top: 0;
+}
+
+.item::after {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #fff;
+  padding: 2px;
+  border: 1px solid #000;
+  font-size: 9px;
+}
+
+.item:hover::after {
+  content: "open";
+}
+
+.item.open::after {
+  content: "close";
+}
+
+.context {
+  display: none;
+  width: 60%;
+  position: absolute;
+  /* item 높이에 유동적으로 나타난다. */
+  top: calc(100% - 10px);
+  right: 10px;
+  /* 큰 값일수록 레이어 맨 위로 올린다. */
+  z-index: 1;
+  padding: 10px;
+  border: 1px solid #000;
+  background-color: #fff;
+}
+
+/* item 에 active 클래스가 붙으면 context 가 보인다. */
+.item.open .context {
+  display: block;
+}
