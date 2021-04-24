@@ -9,12 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var theme = localStorage.getItem("theme");
   if (!theme) localStorage.setItem("theme", "light"); // 첫 마운트에는 라이트로 설정한다.
   // localStorage 의 theme 에 따라 active 해야한다.
-  // body 클래스를 토글하는데 클래스가 없으므로 마운트 시 첫 값을 force 해준다.
+  // 초기 theme 이 dark 로 설정되어있을 수도 있다. 따라서 force 값으로 첫 toggle 을 판단해야한다.
 
   document.body.classList.toggle("dark", theme === "dark"); // body 의 active 를 토글할때 깜빡이는 현상이 일어난다 따라서 초기에 완전히 visibility 를 hidden 으로 해서 지워주어야한다.
 
   setTimeout(function () {
-    document.body.style.visibility = "visibility";
+    document.body.style.visibility = "visible";
   }, 300);
 });
 

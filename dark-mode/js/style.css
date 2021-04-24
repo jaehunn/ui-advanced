@@ -9,6 +9,7 @@ body {
   font-weight: 300;
 
   /* FOIT 현상 방지 */
+  visibility: hidden;
 }
 
 .title {
