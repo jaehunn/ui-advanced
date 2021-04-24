@@ -7,8 +7,8 @@
 body {
   font-family: "Open Sans";
   font-weight: 300;
-  /* FOIT 방지 */
-  visibility: hidden;
+
+  /* FOIT 현상 방지 */
 }
 
 .title {
@@ -17,6 +17,7 @@ body {
   text-align: center;
 }
 
+/* 토글 시 움직일 원을 absolute 처리해야한다. */
 .toggle-button {
   position: relative;
   width: 100px;
@@ -25,21 +26,21 @@ body {
   cursor: pointer;
 }
 
-/* 토글 버튼 내부의 원 */
-.toggle-button > .toggle-button-switch {
+.toggle-button-switch {
   position: absolute;
   top: 2px;
   left: 2px;
-  /* toggle => left: 52px */
+
+  /* 토글시 50px 만큼 우측으로 바뀌므로 left: 52px 처리해야한다. */
+  transition: left 0.3s;
+
   width: 46px;
   height: 46px;
   background-color: #fff;
   border-radius: 100%;
-  transition: left 0.3s;
 }
 
-/* 토글 버튼의 바탕 */
-.toggle-button > .toggle-button-text {
+.toggle-button-text {
   display: flex;
   background-color: #3dbf87;
   border-radius: 25px;
@@ -47,31 +48,31 @@ body {
   transition: background-color 0.3s;
 }
 
-/* 토글 버튼의 텍스트 */
-.toggle-button > .toggle-button-text > .toggle-button-text-on,
-.toggle-button > .toggle-button-text > .toggle-button-text-off {
+.toggle-button-text-on,
+.toggle-button-text-off {
   width: 50%;
   line-height: 50px;
   text-align: center;
   color: #fff;
 }
 
+/* article 좌우 사이즈 조절된다. */
 article {
   width: 960px;
   margin: 50px auto 0;
   font-size: 1.5em;
 }
 
-/* Dark Theme */
+/* body class 로 dark 모드를 설정한다. */
 body.dark {
   background-color: #232323;
 }
 
-body.dark .toggle-button > .toggle-button-switch {
+body.dark .toggle-button-switch {
   left: 52px;
 }
 
-body.dark .toggle-button > .toggle-button-text {
+body.dark .toggle-button-text {
   background-color: #fc3164;
 }
 

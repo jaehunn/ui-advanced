@@ -1,12 +1,27 @@
 "use strict";
 
-document.addEventListener("DOMContentLoaded", function () {// 1. 로컬 스토리지에 저장되어 있는 테마(다크 모드/라이트 모드)를 기준으로 초기 렌더링한다.
-  // 2. 로컬 스토리지에 저장된 테마가 없다면 라이트 모드로 초기 렌더링한다.
-  // 3. 테마를 적용하여 초기 렌더링할 때 기존 테마가 변경되어 깜빡거리는 현상(flash of incorrect theme, FOIT)이 발생하지 않도록 한다.
-  // Write JS Code Here!
-}); // 4. 토글 버튼을 클릭하면 로컬 스토리지에 테마를 저장하고 저장된 테마를 기준으로 다시 렌더링한다.
+// 1. 마운트시 handling
+// 2. 버튼 클릭 시 handling
+// localStorage 의 값을 판단하고 -> 새 값으로 반전시킨 뒤 -> active 한다. (toggle 로)
+// toggle 은 조건에 따라 classList.add(), classList.remove() 를 간추릴 수 있다.
+document.addEventListener("DOMContentLoaded", function () {
+  // 로컬 스토리지로  테마를 { theme: dark or light } 로 관리할 것이다.
+  var theme = localStorage.getItem("theme");
+  if (!theme) localStorage.setItem("theme", "light"); // 첫 마운트에는 라이트로 설정한다.
+  // localStorage 의 theme 에 따라 active 해야한다.
+  // body 클래스를 토글하는데 클래스가 없으므로 마운트 시 첫 값을 force 해준다.
 
-document.querySelector(".toggle-button").onclick = function () {// 로컬스토리지에 저장된 theme가 dark이면 light로 변경하고 light이면 dark로 변경한다.
-  // body 요소에 dark 클래스를 추가되어 있으면 제거히고 그렇지 않으면 추가한다.
-  // Write JS Code Here!
+  document.body.classList.toggle("dark", theme === "dark"); // body 의 active 를 토글할때 깜빡이는 현상이 일어난다 따라서 초기에 완전히 visibility 를 hidden 으로 해서 지워주어야한다.
+
+  setTimeout(function () {
+    document.body.style.visibility = "visibility";
+  }, 300);
+});
+
+document.querySelector(".toggle-button").onclick = function (e) {
+  var theme = localStorage.getItem("theme"); // 이전 값을 보고 반전시킨다.
+
+  localStorage.setItem("theme", "".concat(theme === "dark" ? "light" : "dark")); // dark 클래스에 대해 토글한다.
+
+  document.body.classList.toggle("dark");
 };
