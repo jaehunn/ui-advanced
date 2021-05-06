@@ -3,21 +3,19 @@
 // stopwatch 요소에 이벤트를 핸들링한다 (버블링)
 // 1. stopwatch 요소 안의 start 와 reset 버튼을 잡는다.
 // 2. start, reset 에 대한 핸들링을 정의한다. 그외 요소에 대해 가드절로 거른다.
-// 3.
 
 const stopwatchEl = document.querySelector(".stopwatch");
 
-// 핸들러를 스코프로 가둔 이유는? IIFE 로 왜 정의 했을까
-// 클로저를 파악할 수 있나요?
+// 핸들러를 스코프로 가둔 이유는? IIFE 로 왜 정의 했을까 -> 상태 및 함수 캡슐화
 stopwatchEl.onclick = (() => {
   let runningFlag = false; // start, stop 또는 laps, reset 의 판단 기준이 된다.
-  let elapsedTime = { mm: 0, ss: 0, ms: 0 }; // 업데이트 된다. let
-  let laps = []; // 초기화가능성이 있다. let
+  let elapsedTime = { mm: 0, ss: 0, ms: 0 }; // 업데이트 된다. -> let
+  let laps = []; // 초기화가능성이 있다. -> let
 
   const [startStopButtonEl, resetLapsButtonEl] = document.querySelectorAll(".stopwatch > .control");
 
   const startStopButtonHandler = (() => {
-    let timerId = null;
+    let timerId = null; // stop 시 setInterval 을 풀어줘야한다.
 
     const start = () => {
       let { mm, ss, ms } = elapsedTime;
@@ -38,7 +36,7 @@ stopwatchEl.onclick = (() => {
           ss = 0;
         }
 
-        // reset 버튼의 활성화 상태를 판단한다.
+        // 경과된 시간으로 reset 버튼의 활성화 상태를 판단한다.
         resetLapsButtonEl.disabled = mm + ss + ms === 0;
 
         elapsedTime = { mm, ss, ms };
@@ -51,13 +49,14 @@ stopwatchEl.onclick = (() => {
     // timerId 를 clear 한다.
     const stop = () => clearInterval(timerId);
 
+    // 1. runningFlag 로
     return () => {
       runningFlag ? stop() : start();
       runningFlag = !runningFlag; // 반전
 
       // 컨텐츠 내용
       startStopButtonEl.textContent = runningFlag ? "STOP" : "START";
-      resetLapsButtonEl.textCOntent = runningFlag ? "LAPS" : "RESET";
+      resetLapsButtonEl.textContent = runningFlag ? "LAPS" : "RESET";
     };
   })();
 
@@ -117,7 +116,7 @@ stopwatchEl.onclick = (() => {
     };
 
     const removeAllLapElement = () => {
-      // lap-title 이 아닌 lap 에 대해 모두 삭제한다.
+      // lap-title 이 아닌 laps 에 대해 모두 삭제한다.
       document.querySelector(".laps > div:not(.lap-title)").forEach((lapEl) => lapEl.remove());
 
       lapsEl.style.display = "none";
@@ -154,3 +153,8 @@ stopwatchEl.onclick = (() => {
     target === startStopButtonEl ? startStopButtonHandler() : resetLapsButtonHandler();
   };
 })();
+
+// startStopButtonHandler()
+//
+
+// resetLapsButtonHandler()
