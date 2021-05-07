@@ -29,7 +29,7 @@ export const throttle = (cb, delay) => {
     if (!throttled) {
       throttled = true;
 
-      // 이벤트가 발생하고 지연시간 동안 발생한 이벤트들을 핸들링한다.
+      // 이벤트가 발생하고 지연시간 동안 해당 이벤트를 더 이상 발생시키지않는다.
       setTimeout(() => {
         cb(...args);
 

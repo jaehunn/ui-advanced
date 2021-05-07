@@ -153,8 +153,3 @@ stopwatchEl.onclick = (() => {
     target === startStopButtonEl ? startStopButtonHandler() : resetLapsButtonHandler();
   };
 })();
-
-// startStopButtonHandler()
-//
-
-// resetLapsButtonHandler()
