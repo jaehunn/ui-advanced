@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -10,8 +11,19 @@ const Container = styled.div`
   font-size: 0.5em;
 `;
 
-const Laps = () => {
-  return <Container></Container>;
+const Laps = ({ laps }) => {
+  return (
+    <Container>
+      <div>Laps</div>
+      <div>Time</div>
+      {laps.map((elapsedTime, index) => (
+        <React.Fragment key={index}>
+          <div>{index + 1}</div>
+          <div>{elapsedTime}</div>
+        </React.Fragment>
+      ))}
+    </Container>
+  );
 };
 
 export default Laps;

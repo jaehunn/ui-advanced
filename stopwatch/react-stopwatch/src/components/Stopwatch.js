@@ -1,4 +1,6 @@
+import Laps from "./Laps";
 import styled from "styled-components";
+import useStopwatch from "../hooks/useStopwatch";
 
 const Container = styled.div`
   text-align: center;
@@ -40,8 +42,11 @@ const Stopwatch = () => {
       <Display>{elapsedTime}</Display>
 
       {/* Start or Stop, Reset or Lap */}
-      <Control>Start</Control>
-      <Control>Lap</Control>
+      <Control onClick={() => setIsRunning(!isRunning)}>{isRunning ? "Stop" : "Start"}</Control>
+      <Control onClick={isRunning ? addLap : reset} disabled={elapsedTime === "00:00:00"}>
+        {isRunning ? "Lap" : "Reset"}
+      </Control>
+      {laps.length > 0 && <Laps laps={laps} />}
     </Container>
   );
 };
