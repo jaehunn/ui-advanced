@@ -1,0 +1,68 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff;
+  font-family: "Open Sans";
+  font-weight: 200;
+  color: #333;
+}
+
+.title {
+  color: #db5b33;
+  font-weight: 300;
+  text-align: center;
+}
+
+.carousel {
+  /* 이미지 및 버튼 배치 */
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+
+  /* js 로 렌더링되기 이전까지 감춘다. */
+  opacity: 0;
+}
+
+.carousel-slides {
+  /* css variable */
+  --currentSlide: 0;
+  --duration: 0;
+
+  display: flex;
+  transition: transform calc(var(--duration) * 1ms) ease-out;
+
+  /* move x-axis */
+  transform: translate3D(calc(var(--currentSlide) * -100%), 0, 0);
+}
+
+.carousel-slides img {
+  padding: 5px;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2em;
+  color: #fff;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: pointer;
+  z-index: 99;
+}
+
+.carousel-control:focus {
+  outline: none;
+}
+
+.carousel-control.prev {
+  left: 0;
+}
+
+.carousel-control.next {
+  right: 0;
+}
