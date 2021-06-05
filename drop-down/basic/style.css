@@ -1,0 +1,24 @@
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+/* js */
+.dropdown-container {
+  /* @see https://developer.mozilla.org/ko/docs/Web/CSS/width */
+  width: fit-content;
+
+  /*  */
+  position: relative;
+  display: block;
+}
+
+.dropdown-select-label-container {
+}
