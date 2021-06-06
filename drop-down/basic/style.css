@@ -15,10 +15,65 @@ body {
   /* @see https://developer.mozilla.org/ko/docs/Web/CSS/width */
   width: fit-content;
 
-  /*  */
+  /* 특정 시작점부터 option 들을 펼쳐야한다. */
   position: relative;
   display: block;
 }
 
 .dropdown-select-label-container {
+  background-color: rgba(0, 0, 0, 0.9);
+  width: fit-content;
+  padding: 0.35em 0.75em 0.25em 0.75em;
+}
+
+.dropdown-select-label {
+  vertical-align: middle;
+  display: inline-block;
+  margin: -6px;
+}
+
+.dropdown-item-list-box {
+  box-shadow: 2px 2px 2px 2px gray;
+  background-color: #ccc;
+  opacity: 1;
+  display: block;
+  position: absolute;
+  z-index: 999;
+  top: 8px;
+}
+
+.dropdown-item-box {
+  position: relative;
+  display: block;
+  padding: 0.25em 0.25em 0.25em 0.25em;
+  cursor: pointer;
+}
+
+.dropdown-item-box:hover {
+  background-color: darkgray;
+}
+
+.dropdown-item-box.selected:hover {
+  background-color: darkgray;
+}
+
+.dropdown-item-box.selected {
+  font-weight: 800;
+  background-color: antiquewhite;
+}
+
+.table-container {
+  position: relative;
+  border: 1px solid #ccc;
+}
+
+.back-drop {
+  /* js */
+  display: none;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }

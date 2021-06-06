@@ -21,7 +21,7 @@ const optionData = [
   },
 ];
 
-const userData =  [
+const userData = [
   {
     id: "01",
     userName: "Kenneth",
@@ -47,7 +47,7 @@ const userData =  [
     userName: "Brian",
     favorites: "0003",
   },
-],
+];
 
 export const retrieveOptionData = () => optionData;
 export const retrieveOptionItemById = (id) => optionData.find((item) => item.id === id);

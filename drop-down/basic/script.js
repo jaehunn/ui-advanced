@@ -2,34 +2,33 @@ import "./style.css";
 import { retrieveOptionData, retrieveOptionItemById, retrieveUserData } from "./data";
 import DropDownList from "./DropDownList";
 
-const renderUserList = ($element, data) => {
-  $element.innerHTML = data.reduce(
-    (result, item) =>
-      result +
-      `<div>
-            <span>User: ${item.userName}</span>,
-            <span>favorites: ${retrieveOptionItemById(item["favorites"]).label}</span>
-      </div>`,
-    ""
-  );
-};
+main();
 
-const main = () => {
-  new DropDownList({
+function main() {
+  const dropDownList = new DropDownList({
     selector: "#dropdown",
     backdrop: ".back-drop",
     idField: "id",
     labelField: "label",
     data: retrieveOptionData(),
+
+    // changeEvent 는 selector box 가 선택되면 동작한다.
+    //  1. default 로 명시된 label 의 경우에는 모든 리스트를 뿌려준다.
+    //  2. 특정 id 에 대하여 뿌려준다.
     changeEvent: (e) => {
-      // select box 에서 change 가 발생하면 renderUserList() 로 선택 data 를 렌더링한다.
-      // id 가 없음은 default 하게 모든 리스트를 보여주는 것을 의미한다.
-      renderUserList(document.querySelector("#userlist"), e.id ? retrieveUserData().filter((item) => item.favorites === e.id) : retrieveUserData());
+      displayUserList(document.querySelector("#userlist"), e.id ? displayUserList().filter((item) => item.favorites === e.id) : displayUserList());
     },
   });
 
-  // mount
-  renderUserList(document.querySelector("#userlist"), retrieveUserData());
-};
+  displayUserList(document.querySelector("#userlist"), retrieveUserData());
+}
 
-main();
+// user 의 favorite 과 option 의 id 가 관계에 놓여있다.
+function displayUserList(selector, data) {
+  selector.innerHTML = data.reduce((result, item) => {
+    return (result += `<div>
+      <span>${item.userName}</span>
+      <span>favorites: ${retrieveOptionItemById(item["favorites"]).label}</span>
+    </div>`);
+  }, "");
+}
