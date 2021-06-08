@@ -10,21 +10,31 @@
   </head>
   <body>
     <div class="container">
-      <div id="dropdown" class="dropdown-container">
+      <div class="dropdown-container">
         <!-- javascript -->
+        <div class="dropdown-select-container">
+          <span class="dropdown-select-label">선택해주세요.</span>
+          <div class="dropdown-select-arrow-container">
+            <div class="dropdown-select-arrow"></div>
+          </div>
+        </div> 
       </div>
-      <div id="userlist" class="table-container">
+
+      <div class="userlist-container">
+        <!-- javascript -->
         <div>
           <span>User: Kenneth</span>,
           <span>favorites: Google</span>
-        </div>
+      </div>
       </div>
     </div>
-    <div class="back-drop">
-      <div class="dropdown-item-list-box">
-        <!-- javascript -->
-        <div class="dropdown-item-box selected"><span>Naver</span></div>
-        <div class="dropdown-item-box"><span>Yahoo</span></div>
+
+    <div class="backdrop-container">
+      <!-- javascript -->
+      <div class="dropdown-list">
+        <div class="dropdown-item">
+          <span>Google</span>
+        </div>
       </div>
     </div>
   </body>
