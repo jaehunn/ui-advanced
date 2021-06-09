@@ -15,7 +15,7 @@
   /* @see https://developer.mozilla.org/ko/docs/Web/CSS/width */
   width: fit-content;
 
-  /* option label */
+  /* back drop */
   position: relative;
 }
 
@@ -92,6 +92,6 @@ dropdown-select-label-container {
   top: 0px;
   left: 0px;
 
-  /* js */
+  /* javascript */
   display: none;
 }

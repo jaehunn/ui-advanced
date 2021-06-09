@@ -5,36 +5,41 @@ import DropDownList from "./DropDownList";
 main();
 
 function main() {
-  const userListEl = document.querySelector("#userlist");
-  const defaultUserData = retrieveUserData();
+  const $userList = document.querySelector(".userlist-container");
+  const userData = retrieveUserData();
 
   new DropDownList({
-    selector: "#dropdown",
-    backdrop: ".back-drop",
-    idField: "id",
-    labelField: "label",
-    data: retrieveOptionData(),
-
-    // changeEvent 는 selector box 가 선택되면 동작한다.
-    //  1. default 로 명시된 label 의 경우에는 모든 리스트를 뿌려준다.
-    //  2. 특정 id 에 대하여 뿌려준다.
-    changeEventHandler: ({ id }) => {
-      const userData = id ? defaultUserData.filter(({ favorites }) => favorites === id) : defaultUserData;
-
-      renderUserList(userListEl, userData);
+    selector: {
+      dropdownContainer: ".dropdown-container",
+      backdropContainer: ".backdrop-container"
     },
+    field: {
+      id: "id",
+      label: "label"
+    },
+    optionData: retrieveOptionData(),
+    eventHandler: { 
+      onChange: ({ id }) => {
+        const newUserData = id ? userData.filter(({ favorites }) => favorites === id) : userData;
+  
+        renderUserList($userList, newUserData);
+      }
+    }
   });
 
-  renderUserList(userListEl, defaultUserData);
+  // changeEvent 가 일어나기 전에는 모든 userData 를 표시한다.
+  renderUserList($userList, userData);
 }
 
-// user 의 favorite 과 option 의 id 가 관계에 놓여있다.
-function renderUserList(targetEl, data) {
-  targetEl.innerHTML = data.reduce((result, item) => {
+// 특정 요소에 userList 데이터를 렌더링하는 함수로 빼내었다.
+function renderUserList($target, userList) {
+  $target.innerHTML = userList.reduce((result, { username, favorites}) => {
+    const favoriteOption = retrieveOptionItemById(favorites);
+
     return result +=
       `<div>
-        <span>${item.userName}</span>
-        <span>favorites: ${retrieveOptionItemById(item["favorites"]).label}</span>
+        <span>${username}</span>
+        <span>favorites: ${favoriteOption.label}</span>
       </div>`;
   }, "");
 }

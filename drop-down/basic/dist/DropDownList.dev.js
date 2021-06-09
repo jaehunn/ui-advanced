@@ -11,55 +11,129 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-// @see https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
-// DropDownList 클래스
 var DropDownList =
 /*#__PURE__*/
 function () {
-  function DropDownList(config) {
+  function DropDownList(_ref) {
+    var selector = _ref.selector,
+        field = _ref.field,
+        optionData = _ref.optionData,
+        eventHandler = _ref.eventHandler;
+
     _classCallCheck(this, DropDownList);
 
-    this.rowHeight = 27;
-    this.emptyLabel = "선택해주세요."; // option 의 default label
+    var dropdownContainer = selector.dropdownContainer,
+        backdropContainer = selector.backdropContainer;
+    var id = field.id,
+        label = field.label;
+    var onChange = eventHandler.onChange;
+    this.selectedIndex = -1;
+    this.id = id;
+    this.label = label;
+    this.optionData = optionData;
+    this.onChange = onChange;
+    var $dropdownContainer = document.querySelector(dropdownContainer);
+    this.$dropdownSelectLabelContainer = this.initialize($dropdownContainer); // 다시 접근해야하므로 멤버로 설정한다.
 
-    this.currentIndex = -1; // null 대신 -1 로 초기설정
-    // 설정값 인자로 커스터마이징될 수 있다.
-
-    this.idField = config.idField || "id"; //
-
-    this.labelField = config.labelField || "label";
-    this.data = config.data;
-    this.callback = config.changeEvent;
-    this.dropDownLabel = this.initialize(document.querySelector(config.selector), this.emptyLabel); // // option 이 선택되면 backdrop 에 표시한다.
-    // this.backDrop = document.querySelector(config.backDrop);
-    // this.dropDownItem = this.displayDropDownItemList(this.backDrop, config.data);
-    // // 마지막은 event bind
-    // this.eventBinding();
-  } // 초기 동작, 마운트 시 option 들을 렌더링한다.
+    this.$backdropContainer = document.querySelector(backdropContainer);
+    this.$dropdownItem = this.displayDropDownItemList(this.$backdropContainer, optionData);
+    this.eventBinding();
+  } // dropdownContainer 에 
 
 
   _createClass(DropDownList, [{
     key: "initialize",
-    value: function initialize(selector, emptyLabel) {
-      // wrapper
-      var dropDownLabel = document.createElement("div");
-      dropDownLabel.classList.add("dropdown-select-label-container");
-      var renderText = "\n      <span class=\"dropdown-select-label\">".concat(emptyLabel, "</span>\n      <div class=\"dropdown-select-arrow-container\">\n        <div class=\"dropdown-select-arrow\"></div>\n      </div>\n    "); // 요소 시작 부분(begin) 안쪽(after)
+    value: function initialize($dropDownContainer) {
+      var label = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "선택해주세요.";
+      var $dropdownSelectLabelContainer = document.createElement("div");
+      $dropdownSelectLabelContainer.classList.add("dropdown-select-label-container");
+      var dropdownSelectLabelHTML = "\n      <span class=\"dropdown-select-label\">".concat(label, "</span>\n      <div class=\"dropdown-select-arrow-container\">\n        <div class=\"dropdown-select-arrow\"></div>\n      </div>\n    "); // @see https://developer.mozilla.org/ko/docs/Web/API/Element/insertAdjacentHTML
 
-      dropDownLabel.insertAdjacentHTML("afterbegin", renderText); // wrapper 통째를 자식으로 붙히기
-
-      selector.appendChild(dropDownLabel);
-      return dropDownLabel;
-    } // selector box 의 option 들을 렌더링하는 메서드
-
+      $dropdownSelectLabelContainer.insertAdjacentHTML("afterbegin", dropdownSelectLabelHTML);
+      $dropDownContainer.appendChild($dropdownSelectLabelContainer);
+      return $dropdownSelectLabelContainer;
+    }
   }, {
     key: "displayDropDownItemList",
-    value: function displayDropDownItemList(selector, data) {} // ...
-    // 요소에 이벤트 핸들러를 부착하는 메서드
+    value: function displayDropDownItemList($backdropContainer, optionData) {
+      var _this = this;
 
+      if (!$backdropContainer) return;
+      $backdropContainer.innerHTML = optionData.reduce(function (result, option) {
+        return result += "<div class=\"dropdown-item\">\n        <span>".concat(option[_this.label], "</span>\n      </div>");
+      }, '<div class="dropdown-list">') + "</div>"; // @see https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
+
+      var dropdownSelectLabelContainerRect = this.$dropdownSelectLabelContainer.getBoundingClientRect();
+      var $dropdownListEl = document.querySelector(".dropdown-list"); // 기준좌표 (0, 0)
+      // width = content + padding + border-width
+
+      var width = dropdownSelectLabelContainerRect.width,
+          top = dropdownSelectLabelContainerRect.top,
+          left = dropdownSelectLabelContainerRect.left;
+      $dropdownListEl.style.cssText = "\n      position: absolute;\n      width: ".concat(width, "px;\n      top: ").concat(top + 5, "px;\n      left: ").concat(left, "px;\n    ");
+    }
   }, {
     key: "eventBinding",
-    value: function eventBinding() {// ...
+    value: function eventBinding() {
+      var _this2 = this;
+
+      // 1. 다시 label 을 펼친다.
+      this.$dropdownSelectLabelContainer.addEventListener("click", function () {
+        console.log("1");
+        _this2.$backdropContainer.style.cssText = "display: block;";
+      }); // 2. 바깥을 클릭하면 펼친 label 을 닫는다.
+
+      this.$backdropContainer.addEventListener('click', function () {
+        console.log("2");
+        _this2.$backdropContainer.style.cssText = "display: none;";
+      }); // 3. 펼친 label 들 중 하나를 선택하면 선택한 label 을 뿌린다.
+
+      document.querySelectorAll(".dropdown-item").forEach(function ($dropdownItem, index) {
+        $dropdownItem.addEventListener("click", function () {
+          console.log("3");
+
+          var currentOption = _this2.retrieveOptionByIndex(index); // selectedIndex 가 존재하면 기존 select 클래스를 제거한다.
+
+
+          if (~_this2.selectedIndex) _this2.unSelectedDropdownItem(_this2.selectedIndex);
+          _this2.selectedIndex = index; // 새로운 selectedIndex 에 대해서 존재한다면 select 클래스를 새롭게 추가한다.
+
+          if (~_this2.selectedIndex) _this2.selectedDropdownItem(_this2.selectedIndex); // 이벤트를 payload 를 넘겨 발생시킨다.
+
+          _this2.dispatchEvent({
+            id: currentOption[_this2.id],
+            label: currentOption[_this2.label]
+          });
+        });
+      });
+    } // utils
+
+  }, {
+    key: "dispatchEvent",
+    value: function dispatchEvent(payload) {
+      var $dropdownSelectLabel = this.$dropdownSelectLabelContainer.querySelector(".dropdown-select-label");
+      $dropdownSelectLabel.innerHTML = payload[this.label];
+      this.$backdropContainer.style.cssText = "display: none;"; // changeEvent 
+
+      this.onChange(payload);
+    }
+  }, {
+    key: "selectedDropdownItem",
+    value: function selectedDropdownItem(targetIndex) {
+      var $targetSelectedDropdownItem = document.querySelectorAll(".dropdown-item")[targetIndex];
+      $targetSelectedDropdownItem.classList.add("selected");
+    }
+  }, {
+    key: "unSelectedDropdownItem",
+    value: function unSelectedDropdownItem(targetIndex) {
+      var $targetSelectedDropdownItem = document.querySelectorAll(".dropdown-item")[targetIndex];
+      $targetSelectedDropdownItem.classList.remove("selected");
+    }
+  }, {
+    key: "retrieveOptionByIndex",
+    value: function retrieveOptionByIndex(index) {
+      var targetOption = this.optionData[index];
+      return targetOption;
     }
   }]);
 

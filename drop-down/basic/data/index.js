@@ -24,27 +24,27 @@ const optionData = [
 const userData = [
   {
     id: "01",
-    userName: "Kenneth",
+    username: "Kenneth",
     favorites: "0001",
   },
   {
     id: "02",
-    userName: "John",
+    username: "John",
     favorites: "0001",
   },
   {
     id: "03",
-    userName: "Daniel",
+    username: "Daniel",
     favorites: "0002",
   },
   {
     id: "04",
-    userName: "Peter",
+    username: "Peter",
     favorites: "0004",
   },
   {
     id: "05",
-    userName: "Brian",
+    username: "Brian",
     favorites: "0003",
   },
 ];
