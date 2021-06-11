@@ -9,7 +9,7 @@ const debounce = (handler, delay) => {
     latestTimerTarget = setTimeout(() => {
       handler.bind(null, ...args);
 
-      clearTimeout(latestTimerTarget);
+      // 마지막으로 채택된 이벤트 뒤로는 이벤트를 핸들링하지않아서 clearTimeout() 되지않으므로 처리해야한다.
     }, delay);
   };
 };
