@@ -68,11 +68,11 @@ class AutoComplete {
 
         !!resultData.length &&
           this.createSearchKeywordList(this.$searchList, resultData).forEach(($element, index) => {
-            // ISSUE) 왜 click 이벤트 핸들러가 붙혀지지않을까?
-            console.log(index);
+            // ISSUE) 왜 click 이벤트 핸들러가 붙혀지지않을까? -> mouseout 로직을 mouseover 에 등록했었군.
+            $element.addEventListener("click", () => {
+              this.$searchInput.value = resultData[index].text;
 
-            $element.addEventListener("click", (e) => {
-              console.log($element, index);
+              this.hiddenElement(this.$searchList);
             });
           });
       });
@@ -98,7 +98,7 @@ class AutoComplete {
       mouseOver = true;
     });
 
-    this.$searchList.addEventListener("mouseover", () => {
+    this.$searchList.addEventListener("mouseout", () => {
       mouseOver = false;
     });
   }
