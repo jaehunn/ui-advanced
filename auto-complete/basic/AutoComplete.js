@@ -26,7 +26,7 @@ class AutoComplete {
     const $searchInput = document.createElement("input");
 
     $searchInput.setAttribute("type", "text");
-    $searchInput.setAttribute("placeholder", "Please Enter.");
+    $searchInput.setAttribute("placeholder", "Please enter.");
 
     $searchInput.classList.add("auto-complete-input");
 
@@ -63,20 +63,18 @@ class AutoComplete {
       // 1. 만들어둔 adapter 로 data 를 get() 으로 끌어온다.
       // adapter 클래스 인스턴스를 매번 생성시키는 것은 비효율적이므로 렉시컬로 관리하자.
 
-      console.log(inputText);
-
       requestAdapter.get(this.url, inputText).then((resultData) => {
         // auto complete 요소를 렌더링하는 것이 그치지않고, 이벤드를 다는것까지 구현된다.
-        this.createSearchKeywordList(this.$searchList, resultData).forEach(($element, index) => {
-          $element.addEventListener("click", () => {
-            // 클릭되면 input value 를 갱신해야되고,
-            // 펼친 keyword 를 숨긴다.
-            this.searchInput.value = resultData[index].text;
 
-            // 두루 사용할 수 있도록 메서드 추상화레벨을 높였다.
-            this.hiddenElement($element);
+        !!resultData.length &&
+          this.createSearchKeywordList(this.$searchList, resultData).forEach(($element, index) => {
+            // ISSUE) 왜 click 이벤트 핸들러가 붙혀지지않을까?
+            console.log(index);
+
+            $element.addEventListener("click", (e) => {
+              console.log($element, index);
+            });
           });
-        });
       });
     };
 
@@ -108,23 +106,21 @@ class AutoComplete {
   createSearchKeywordList($searchList, data) {
     if (!$searchList || !data.length) return;
 
-    $searchList.style.cssText = 'display: "";';
+    $searchList.style.cssText = `display: "";`;
 
-    searchKeywordHTML = data.reduce((searchKeywordText, { text }) => {
-      return (searchKeywordText += `
+    const searchKeywordHTML = data.reduce((result, { text }) => {
+      return (result += `
             <div class="auto-complete-item">
                 <span>${text}</span>
             </div>
         `);
     }, "");
 
-    console.log(searchKeywordHTML);
-
     $searchList.innerHTML = searchKeywordHTML;
 
     // 렌더링 위치 잡기
     // @see https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
-    const searchInputRect = this.searchInput.getBoundingClientRect();
+    const searchInputRect = this.$searchInput.getBoundingClientRect();
 
     const { width, top, height, left } = searchInputRect;
 

@@ -23,17 +23,19 @@ class RequestMockDataAdapter {
   constructor() {}
   get(url, param) {
     return new Promise((resolve) => {
-      resolve(
-        param
-          ? mockData.filter(({ text }) => {
-              const itemTextToLowerCase = text.toLocaleLowerCase();
-              const paramTextToLowerCase = param.toLocaleLowerCase();
-              const isMatched = ~itemTextToLowerCase.indexOf(paramTextToLowerCase);
+      setTimeout(() => {
+        resolve(
+          param
+            ? mockData.filter(({ text }) => {
+                const itemTextToLowerCase = text.toLowerCase();
+                const paramTextToLowerCase = param.toLowerCase();
+                const isMatched = !!~itemTextToLowerCase.indexOf(paramTextToLowerCase);
 
-              return isMatched;
-            })
-          : []
-      );
+                return isMatched;
+              })
+            : []
+        );
+      }, 300);
     });
   }
 }
