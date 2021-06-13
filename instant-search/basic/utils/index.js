@@ -1,4 +1,4 @@
-export const debounce = (callback, delay) => {
+export const debounce = (callback, delayTime) => {
   let targetTimer = null;
 
   // targetTimer 를 자유변수로 가지는 클로저
@@ -6,9 +6,19 @@ export const debounce = (callback, delay) => {
   return (...args) => {
     if (targetTimer) clearTimeout(targetTimer);
 
-    targetTimer = setTimeout(callback.bind(null, ...args), delay);
+    targetTimer = setTimeout(() => {
+      callback.apply(null, args);
 
-    clearTimeout(targetTimer);
+      // ISSUE) bind() 가 왜 안될까.
+      // callback.bind(null, ...args);
+
+      // bind() 반환값은 함수다.
+      // call() 과 apply() 와는 다르게 this 만 바인딩하는 역할만 한다.
+      // const bindCallbackFn = callback.bind(null, ...args);
+      // bindCallbackFn();
+
+      clearTimeout(targetTimer);
+    }, delayTime);
   };
 };
 
@@ -16,7 +26,7 @@ export const debounce = (callback, delay) => {
 // 따라서 타이머에 대한 타겟팅보다 이벤트 발생시점에 타겟을 조정해야할것같다.
 // 지연시간이 흐르고 이벤트 핸들링이 완료되면 다음 이벤트 핸들링을 해도 좋다는 표시를 남긴다.
 
-export const throttle = (callback, delay) => {
+export const throttle = (callback, delayTime) => {
   let throttled = false; // 초기 플래그는 이밴트 핸들링이 적용된다.
 
   return (...args) => {
@@ -28,7 +38,7 @@ export const throttle = (callback, delay) => {
         callback.bind(null, ...args);
 
         throttled = false; // 지연시간이 흘렀으니 다음 이벤트를 핸들링해도 좋다.
-      }, delay);
+      }, delayTime);
     }
   };
 };

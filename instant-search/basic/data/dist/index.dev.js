@@ -22,12 +22,14 @@ var mockData = [{
   word: "서쪽마을"
 }];
 
-var retrieveWordData = function retrieveWordData() {
+var retrieveWordData = function retrieveWordData(targetWord) {
   return new Promise(function (resolve) {
     setTimeout(function () {
-      //
-      resolve();
-    });
+      return resolve(mockData.filter(function (_ref) {
+        var word = _ref.word;
+        return ~word.indexOf(targetWord);
+      }));
+    }, 300);
   });
 };
 
