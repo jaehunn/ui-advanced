@@ -37,8 +37,6 @@ class InstantSearch {
 
     // ISSUE) debounce 가 적용이 안된다. -> bind() 를 잘못쓴 것 같다.
     const dispatchEvent = debounce((targetText) => {
-      console.log("event trigger");
-
       this.onChange(targetText);
     }, this.delayTime);
 
@@ -58,8 +56,6 @@ class InstantSearch {
 
     // // 생성한 이벤트 옵저버를 등록(구독)하고 콜백으로 keyup 에서 전달된 이벤트객체를 사용할 수 있다.
     // this.subscription = eventSource.subscribe(({ target: { value } }) => {
-    //   console.log("trigger");
-
     //   dispatchEvent(value);
     // });
   }

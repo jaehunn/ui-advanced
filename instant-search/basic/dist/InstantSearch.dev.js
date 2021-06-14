@@ -56,8 +56,6 @@ function () {
       // debounce 로 keyup 최적화
       // ISSUE) debounce 가 적용이 안된다. -> bind() 를 잘못쓴 것 같다.
       var dispatchEvent = (0, _utils.debounce)(function (targetText) {
-        console.log("event trigger");
-
         _this.onChange(targetText);
       }, this.delayTime); // const dispatchEvent = (targetText) => {
       //   this.onChange(targetText);
@@ -73,7 +71,6 @@ function () {
       // const eventSource = fromEvent(this.$searchInput, "keyup").pipe(debounceTime(this.delayTime));
       // // 생성한 이벤트 옵저버를 등록(구독)하고 콜백으로 keyup 에서 전달된 이벤트객체를 사용할 수 있다.
       // this.subscription = eventSource.subscribe(({ target: { value } }) => {
-      //   console.log("trigger");
       //   dispatchEvent(value);
       // });
     }
