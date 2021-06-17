@@ -1,20 +1,22 @@
 import React, { useState } from "react";
-import { Modal, Blackout, Button } from ".";
+import { Blackout, Button, Modal } from ".";
 
 const App = () => {
-  // root state 로 관리 (modalVisible)
-  const [modalVisible, setModalVisible] = useState(false);
+  const [visible, setVisible] = useState(false); // modal visible
 
-  // click handler
-  const modalVisibleHandler = (isVisible) => setModalVisible(isVisible);
+  const visibleHandler = (visible) => setVisible(visible); // visible 을 받아서 세팅한다.
+
+  // 1. Blackout: visible 로 스타일 설정, onVisible 로 클릭이벤트 설정
+  // 2. Modal: visible 로 스타일 설정
+  // 3. Button: onVisible 로 클릭이벤트 설정
 
   return (
     <div className="App">
-      <Blackout modalVisible={modalVisible} modalVisibleHandler={modalVisibleHandler}>
-        <Button modalVisibleHandler={() => modalVisibleHandler(false)}>Close</Button>
-      </Blackout>
-      <Modal modalVisible={modalVisible} modalVisibleHandler={modalVisibleHandler} />
-      <Button modalVisibleHandler={() => modalVisibleHandler(true)}>Open</Button>
+      <Blackout visible={visible} onVisible={visibleHandler} />
+      <Button title="Open" onVisible={visibleHandler} />
+      <Modal visible={visible}>
+        <Button title="Close" onVisible={visibleHandler} />
+      </Modal>
     </div>
   );
 };
