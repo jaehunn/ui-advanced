@@ -19,19 +19,39 @@ const App = () => {
   // setTimeout 함수를 중복해서 발생시키지 않아야한다. flag 를 설정하자.
 
   // useState() 와 useRef() 로 상태를 가지는 것에는 어떤 차이가 있을까?
+  const isLoading = useRef(false); // isLoading 플래그로 이벤트 처리에 제약을 가하자.
 
-  const prevButtonHandler = () => {
+  // setTimeout() 을 처리하고 프라미스를 뱉는 비동기 함수를 만들자.
+  // buttonHandler 에서 프라미스를 처리하자. async/await
+
+  // setTimeout() 의 delay 는 몇으로 해야할까? width 가 1%씩 증가하는 속도와 맞춰야할것이다.
+
+  const delayTime = (delay) => {
+    isLoading.current = true; // 로딩중으로 바뀌고
+
+    // 프라미스 안에서 setTimeout() 을 처리한다. 따로 귀결값은 필요없다.
+    // delay 가 지난 후에는 다시 풀어줘야겠다.
+    return new Promise(() => setTimeout(() => (isLoading.current = false), delay));
+  };
+
+  const prevButtonHandler = async () => {
     // guard
+    if (isLoading.current) return;
     if (currentIndex === 0) return;
 
     setCurrentIndex(currentIndex - 1);
+
+    await delayTime(animationSpeed);
   };
 
-  const nextButtonHandler = () => {
+  const nextButtonHandler = async () => {
     // guard
     if (currentIndex === lastIndex) return;
+    if (isLoading.current) return;
 
-    setCurrentIndex(currentIndex + 1); // ...
+    setCurrentIndex(currentIndex + 1);
+
+    await delayTime(animationSpeed);
   };
 
   return (
