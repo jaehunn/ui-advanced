@@ -1,0 +1,106 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.carousel-container {
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel {
+  transform-style: preserve-3d;
+  /* vendor prefix */
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+}
+
+.carousel-item {
+  /* absolute 로 차곡차곡 쌓는다. active 된 item 은 z-index 로 끌어올린다. */
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 4rem;
+  margin: auto;
+
+  /* 일단 가리고 active 로 보이게한다. */
+  /* 왜 opacity 를 1로 줘도 안보이는 것일까? absolute 에 뭔가 있을것같다. */
+  opacity: 0;
+
+  /* 특정 속성변화에 대해 지연시간을 부여한다. */
+  transition: transform 0.5s, opacity 0.5s, z-index 0.5s;
+}
+
+.carousel-item.active {
+  opacity: 1;
+  position: relative;
+  z-index: 110;
+}
+
+.carousel-item.prev,
+.carousel-item.next {
+  z-index: 101;
+}
+
+.carousel-item.prev {
+  /* 좌, 우로 움직이는 캐러셀 */
+  transform: translateX(-100%);
+}
+
+.carousel-item.next {
+  transform: translateX(100%);
+}
+
+/* icon 을 사용하지않고 prev, next 버튼 아이콘을 직접제작해봅시다. */
+.carousel-button.prev,
+.carousel-button.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3em;
+  height: 3em;
+  background-color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 110;
+  border: 1px solid black;
+}
+
+.carousel-button.prev {
+  left: 5%;
+}
+
+.carousel-button.next {
+  right: 5%;
+}
+
+/* 가상 요소로 아이콘을 디자인한다 */
+.carousel-button.prev::after,
+.carousel-button.next::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+
+  width: 10px;
+  height: 10px;
+
+  /* ㄴ 모양을 rotate 로 돌리자 */
+  border-left: 2px solid #333;
+  border-bottom: 2px solid #333;
+
+  /* prev 는 시계방향으로 수직의 반을 이동시켜야한다. */
+  /* 속성값을 설정할 때 따로 정의하면 마지막 속성값 설정이 덮어쓴다. */
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.carousel-button.next::after {
+  left: 47%;
+
+  /* after 는 45deg 에서 y 축 대칭을 해야한다 +180deg */
+  transform: translate(-50%, -50%) rotate(225deg);
+}
