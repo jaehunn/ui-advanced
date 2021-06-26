@@ -31,7 +31,7 @@ const ItemList = () => {
   const dispatch = useDispatch(); // dispatch() 에 액션 함수를 넣는다.
 
   // ISSUE) currentPageItems 에 proxy 가 담긴다.
-  // 파라미터에서 바로 디스터럭처링을 남발하면 const 객체에 대해 속성을 변경할 수 없다. 객체.속성 = 값 으로 const 한 객체 속성에 변경을 가할 수 있다.
+  // 파라미터에서 바로 디스터럭처링을 남용하면 const 객체에 대해 속성을 변경할 수 없다. 객체.속성 = 값 으로 const 한 객체 속성에 변경을 가할 수 있다.
   useEffect(() => {
     dispatch(getCurrentPageItems({ targetPageNum: 1 }));
   }, [dispatch]);

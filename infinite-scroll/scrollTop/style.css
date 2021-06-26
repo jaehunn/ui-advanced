@@ -1,0 +1,41 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ol,
+ul {
+  font-size: 20px;
+  margin-left: 25px;
+}
+
+ul > li {
+  padding-top: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+  background-color: #ccc;
+  border: 1px solid #333;
+}
+
+.content {
+  padding-top: 150px;
+}
+
+section {
+  padding: 80px;
+}
+
+section p {
+  margin-bottom: 15px;
+}
