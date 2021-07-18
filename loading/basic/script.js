@@ -1,45 +1,48 @@
 import { api } from "./data";
 
-document.addEventListener("DOMContentLoaded", App);
-
-const App = (function () {
+(function App() {
   const $form = document.querySelector("form");
   const $title = document.querySelector("#title");
-  const $contents = document.querySelector("#contents");
+  const $body = document.querySelector("#body");
   const $user = document.querySelector("#user");
-  const $loading = document.querySelector("#loading");
 
-  const log = console.log;
+  $form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-  // extends api()
-  const postApi = (data) => {
+    const data = {
+      title: $title.value,
+      body: $body.value,
+      user: $user.value,
+    };
+
+    post(data, postApi, logger);
+  });
+
+  // post 요청 메서드
+  async function post(data, api, cb) {
+    try {
+      const res = await api(data);
+
+      cb(true, res.data, "성공하셨습니다. :)");
+    } catch (err) {
+      cb(false, null, "실패하셨습니다. :(");
+
+      console.error(err);
+    }
+  }
+
+  // api() 확장
+  function postApi(data) {
     return api({
       method: "post",
       url: "/posts",
       data,
     });
-  };
+  }
 
-  const logger = (...args = [, , msg]) => {
-    log(msg);
-  };
+  function logger(...args) {
+    const [, , msg] = args;
 
-  const post = async (data, api, cb) => {
-    try {
-      const res = await api(data);
-
-      cb(true, res.data, `성공했습니다.`);
-    } catch (err) {
-      cb(false, null, `실패했어요.`);
-
-      console.error(err);
-    }
-  };
-
-  // @see https://xn--xy1bk56a.run/axios/guide/interceptors.html
-
-  return () => {
-    // event binding
-    // feature logic
-  };
+    console.log(msg);
+  }
 })();

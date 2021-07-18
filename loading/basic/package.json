@@ -1,18 +1,21 @@
 {
-  "name": "loading",
+  "name": "basic",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "data.js",
   "scripts": {
     "start": "parcel index.html watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  },
   "dependencies": {
     "axios": "^0.21.1"
   },
-  "devDependencies": {
-    "parcel-bundler": "^1.12.5"
-  }
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
 }
