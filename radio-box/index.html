@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+    <title>Radio Box</title>
+  </head>
+
+  <body>
+    <form>
+      <p>연락 수단을 선택해주세요!</p>
+      <div>
+        <input
+          type="radio"
+          id="contact-method-1"
+          name="contact"
+          value="email"
+        />
+        <label for="contact-method-1">Email</label>
+        <input
+          type="radio"
+          id="contact-method-2"
+          name="contact"
+          value="phone"
+        />
+        <label for="contact-method-2">Phone</label>
+        <input
+          type="radio"
+          id="contact-method-3"
+          name="contact"
+          value="email"
+        />
+        <label for="contact-method-3">Email</label>
+      </div>
+      <p>배송 방법을 선택해주세요!</p>
+      <div>
+        <input
+          type="radio"
+          id="delivery-method-1"
+          name="delivery"
+          value="ship"
+        />
+        <label for="delivery-method-1">Ship</label>
+        <input
+          type="radio"
+          id="delivery-method-2"
+          name="delivery"
+          value="plane"
+        />
+        <label for="delivery-method-2">Plane</label>
+        <input
+          type="radio"
+          id="delivery-method-3"
+          name="delivery"
+          value="car"
+        />
+        <label for="delivery-method-3">Car</label>
+      </div>
+      <div class="submit-button-container">
+        <button type="submit">확인</button>
+      </div>
+    </form>
+    <span class="currentItem"></span>
+  </body>
+</html>
