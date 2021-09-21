@@ -13,9 +13,9 @@
   const $resetButton = document.querySelector(".reset-button");
 
   // function
-  function getCalculatedScore(e) {
-    const { width, left } = e.currentTarget.getBoundingClientRect();
-    const starWidth = e.clientX - left;
+  function getCalculatedScore(currentTarget, clientX) {
+    const { width, left } = currentTarget.getBoundingClientRect();
+    const starWidth = clientX - left;
     const scaleHalf = width / MAX_SCORE / 2; // half scale
     const result = Math.ceil(starWidth / scaleHalf) / 2;
 
@@ -66,18 +66,26 @@
 
     return (...args) => {
       if (timerId) clearTimeout(timerId);
-
-      timerId = setTimeout(() => {}, delay);
+      const [e] = [...args]
+      const {currentTarget,clientX} = e
+      timerId = setTimeout(() => {
+        cb(currentTarget,clientX);
+      }, delay,e);
     };
   }
-
+  function callbackfunc(currentTarget, clientX) {
+    const currentScore = getCalculatedScore(currentTarget, clientX);
+    setStarsStatus(currentScore);
+    setScore(currentScore);
+    
+  }
   return (function () {
     // init
     init();
 
     // event binding
     $stars.addEventListener("click", (e) => {
-      const currentScore = getCalculatedScore(e);
+      const currentScore = getCalculatedScore(e.currentTarget, e.clientX);
 
       setScore(currentScore);
     });
@@ -85,14 +93,7 @@
     $stars.addEventListener(
       "mousemove",
 
-      debounce((e) => {
-        // ISSUE) debounce 를 적용하면, e.currentTarget 을 잃어버린다. 어떻게 해결할까?
-
-        // @see https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
-        const currentScore = getCalculatedScore(e);
-
-        setStarsStatus(currentScore);
-      }, 500)
+      debounce(callbackfunc, 500)
     );
 
     $stars.addEventListener("mouseleave", () => {
